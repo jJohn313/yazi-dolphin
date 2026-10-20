@@ -1,0 +1,6 @@
+# Yazi runtime & local state
+config/bookmark
+*.log
+.DS_Store
+*.swp
+*.bak

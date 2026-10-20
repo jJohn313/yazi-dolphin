@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+# ==============================================================================
+# yazi-dolphin: Terminal File Manager with Full Dolphin Parity
+# ==============================================================================
+set -euo pipefail
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ "${1:-}" == "--sync" ]] || [[ "${1:-}" == "--install" ]]; then
+    exec "${SCRIPT_DIR}/install.sh"
+fi
+
+exec yazi "$@"

@@ -1,0 +1,51 @@
+[mgr]
+prepend_keymap = [
+    # Custom File Openers & Navigation
+    { on = "l", run = "plugin smart-enter", desc = "Enter directory or open file" },
+    { on = "z", run = "plugin zoxide", desc = "Jump to directory via zoxide" },
+    { on = "Z", run = "plugin zoxide --args='--interactive'", desc = "Jump to directory via zoxide (fzf)" },
+    { on = "o", run = "open --interactive", desc = "Open with interactive menu (Kate, nano, etc.)" },
+    { on = "T", run = "plugin toggle-pane max-preview", desc = "Maximize or restore the preview pane" },
+    { on = "t", run = "tab_create --current", desc = "Create a new tab in CWD" },
+    { on = "w", run = "close", desc = "Close current tab" },
+    { on = "W", run = "tasks:show", desc = "Show tasks manager" },
+
+    # Vim Relative Motions (1-9)
+    { on = "1", run = "plugin relative-motions 1", desc = "Move 1 step" },
+    { on = "2", run = "plugin relative-motions 2", desc = "Move 2 steps" },
+    { on = "3", run = "plugin relative-motions 3", desc = "Move 3 steps" },
+    { on = "4", run = "plugin relative-motions 4", desc = "Move 4 steps" },
+    { on = "5", run = "plugin relative-motions 5", desc = "Move 5 steps" },
+    { on = "6", run = "plugin relative-motions 6", desc = "Move 6 steps" },
+    { on = "7", run = "plugin relative-motions 7", desc = "Move 7 steps" },
+    { on = "8", run = "plugin relative-motions 8", desc = "Move 8 steps" },
+    { on = "9", run = "plugin relative-motions 9", desc = "Move 9 steps" },
+
+    # Bookmarks (Yamb)
+    { on = "m", run = "plugin yamb -- save", desc = "Bookmark current directory" },
+    { on = "'", run = "plugin yamb -- jump_by_key", desc = "Jump to bookmark by key" },
+    { on = '"', run = "plugin yamb -- jump_by_fzf", desc = "Jump to bookmark via fzf" },
+    { on = [ "b", "d" ], run = "plugin yamb -- delete_by_key", desc = "Delete bookmark by key" },
+    { on = [ "b", "D" ], run = "plugin yamb -- delete_by_fzf", desc = "Delete bookmark via fzf" },
+    { on = [ "b", "A" ], run = "plugin yamb -- delete_all", desc = "Delete all bookmarks" },
+
+    # Ripgrep & FZF Searching (FG)
+    { on = [ "f", "g" ], run = "plugin fg", desc = "Find file by content (fuzzy search)" },
+    { on = [ "f", "G" ], run = "plugin fg -- rg", desc = "Find file by content (ripgrep exact)" },
+    { on = [ "f", "f" ], run = "plugin fg -- fzf", desc = "Find file by filename (fzf)" },
+
+    # Clipboard Sync (Wayland wl-copy / wl-paste)
+    { on = "y", run = [ "yank", "plugin system-clipboard -- --action=copy" ], desc = "Yank files & copy to system clipboard" },
+    { on = "x", run = [ "yank --cut", "plugin system-clipboard -- --action=copy" ], desc = "Cut files & copy to system clipboard" },
+    { on = "<C-p>", run = "plugin system-clipboard -- --action=paste", desc = "Paste files from system clipboard" },
+
+    # Drag and Drop (Ripdrag)
+    { on = "<C-d>", run = "plugin drag", desc = "Drag files into GUI apps (ripdrag)" },
+
+    # System & Archive Utilities
+    { on = "<F1>", run = "help", desc = "Open help menu" },
+    { on = "C", run = "plugin ouch", desc = "Compress selected files with Ouch" },
+    { on = [ "c", "m" ], run = "plugin chmod", desc = "Change permissions (chmod)" },
+    { on = "M", run = "plugin mount", desc = "Disk mount & unmount manager" },
+    { on = [ "d", "f" ], run = "plugin diff", desc = "Diff selected against hovered file" },
+]

@@ -1,0 +1,116 @@
+[mgr]
+show_hidden = false
+sort_by = "alphabetical"
+sort_sensitive = false
+sort_reverse = false
+sort_dir_first = true
+linemode = "size"
+
+[opener]
+edit = [
+    { run = 'micro %s', desc = "Edit with micro", block = true },
+    { run = 'nano %s', desc = "Edit with nano", block = true },
+]
+glow = [
+    { run = 'glow -p %s || true', desc = "Render Markdown (glow)", block = true },
+]
+bat = [
+    { run = 'bat --paging=always %s', desc = "View formatted text (bat)", block = true },
+]
+kate = [
+    { run = 'kate %s', desc = "Edit with Kate", orphan = true },
+]
+open = [
+    { run = 'xdg-open %s1', desc = "Open with default app", orphan = true },
+]
+reveal = [
+    { run = 'xdg-open "$(dirname "%s1")"', desc = "Reveal in file manager", orphan = true },
+]
+
+# Archive actions
+extract_to_subfolder = [
+    { run = 'ouch d -y %s', desc = "Extract to subfolder" },
+]
+extract_here = [
+    { run = 'ouch d -y --here %s', desc = "Extract here (current directory)" },
+]
+extract_to_custom = [
+    { run = 'DEST=$(kdialog --getexistingdirectory "$PWD" 2>/dev/null || zenity --file-selection --directory 2>/dev/null); [ -n "$DEST" ] && ouch d -y -d "$DEST" %s', desc = "Extract to chosen folder (dialog)...", orphan = true },
+]
+extract_and_remove = [
+    { run = 'ouch d -y -r %s', desc = "Extract to subfolder and remove archive" },
+]
+
+# Media & Document actions
+pdf = [
+    { run = 'xdg-open %s1', desc = "Open PDF viewer", orphan = true },
+    { run = 'onlyoffice-desktopeditors %s1', desc = "Open in OnlyOffice", orphan = true },
+]
+audio = [
+    { run = 'mpv --no-video %s', desc = "Play audio (mpv)", orphan = true },
+]
+video = [
+    { run = 'mpv %s', desc = "Play video (mpv)", orphan = true },
+]
+image = [
+    { run = 'imv %*', orphan = true, desc = "View image (imv)" },
+    { run = 'xdg-open %s1', desc = "Open with default app", orphan = true },
+]
+
+[open]
+rules = [
+    # Archives: smart extract options
+    { mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}", use = ["extract_to_subfolder", "extract_here", "extract_to_custom", "extract_and_remove", "reveal"] },
+    
+    # Documents & Media: sensible defaults
+    { url = "*.md", use = ["glow", "bat", "edit", "kate", "open", "reveal"] },
+    { mime = "text/markdown", use = ["glow", "bat", "edit", "kate", "open", "reveal"] },
+    { mime = "application/pdf", use = ["pdf", "reveal"] },
+    { mime = "audio/*", use = ["audio", "reveal"] },
+    { mime = "video/*", use = ["video", "reveal"] },
+    { mime = "image/*", use = ["image", "reveal"] },
+
+    # Text & Code: edit in Nano or Kate
+    { mime = "text/*", use = ["edit", "kate", "open", "reveal"] },
+    { mime = "application/{json,ndjson,javascript,xml,x-yaml,x-toml,toml,yaml}", use = ["edit", "kate", "open", "reveal"] },
+
+    # Universal fallback: NEVER suggest text editors for unknown binaries/files
+    { url = "*", use = ["open", "reveal"] },
+]
+
+[plugin]
+prepend_preloaders = [
+    { mime = "application/epub+zip", run = "epub-preview" },
+    { url = "*.epub", run = "epub-preview" },
+    { mime = "audio/*", run = "mediainfo" },
+    { mime = "video/3gpp", run = "mediainfo" },
+    { url = "*.{mp3,m4a,flac,wav,aac,ogg,opus,m4b,wma}", run = "mediainfo" },
+]
+prepend_previewers = [
+    # Ouch for universal archive previews
+    { mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}", run = "ouch" },
+    # Miller for CSV and TSV tabular data
+    { mime = "text/csv", run = "miller" },
+    { mime = "text/tab-separated-values", run = "miller" },
+    { url = "*.{csv,tsv}", run = "miller" },
+    # EPUB e-book cover preview
+    { mime = "application/epub+zip", run = "epub-preview" },
+    { url = "*.epub", run = "epub-preview" },
+    # ExifTool for binary and executable inspection
+    { mime = "application/{x-executable,x-sharedlib,x-pie-executable,x-msdownload,x-dosexec}", run = "exiftool" },
+    { url = "*.{exe,bin,elf,so,dll}", run = "exiftool" },
+    # MediaInfo for audio files and 3GPP containers
+    { mime = "audio/*", run = "mediainfo" },
+    { mime = "video/3gpp", run = "mediainfo" },
+    { url = "*.{mp3,m4a,flac,wav,aac,ogg,opus,m4b,wma}", run = "mediainfo" },
+]
+
+[[plugin.prepend_fetchers]]
+url   = "*"
+run   = "git"
+group = "git"
+
+[[plugin.prepend_fetchers]]
+url   = "*/"
+run   = "git"
+group = "git"
