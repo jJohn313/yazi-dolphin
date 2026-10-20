@@ -80,9 +80,11 @@ install_suite() {
     echo -e "  Linking ${REPO_DIR}/config -> ${CONFIG_DIR}"
     ln -sfn "${REPO_DIR}/config" "${CONFIG_DIR}"
 
-    # Symlink launcher binary
+    # Symlink binaries
     echo -e "  Linking ${REPO_DIR}/bin/yazi-dolphin -> ${BIN_DIR}/yazi-dolphin"
     ln -sfn "${REPO_DIR}/bin/yazi-dolphin" "${BIN_DIR}/yazi-dolphin"
+    echo -e "  Linking ${REPO_DIR}/bin/glow-pager -> ${BIN_DIR}/glow-pager"
+    ln -sfn "${REPO_DIR}/bin/glow-pager" "${BIN_DIR}/glow-pager"
 
     echo -e "\n${CYAN}▶ Registering Desktop & MIME Handlers...${RESET}"
     if [[ -f "${REPO_DIR}/system/yazi.desktop" ]]; then
@@ -134,7 +136,7 @@ show_status() {
 
 uninstall_suite() {
     echo -e "${YELLOW}▶ Uninstalling Yazi Dolphin Drop-In Suite...${RESET}"
-    rm -f "${BIN_DIR}/yazi-dolphin"
+    rm -f "${BIN_DIR}/yazi-dolphin" "${BIN_DIR}/glow-pager"
     if [[ -L "${CONFIG_DIR}" ]] && [[ "$(readlink "${CONFIG_DIR}")" == "${REPO_DIR}/config" ]]; then
         rm -f "${CONFIG_DIR}"
         echo -e "  Removed ${CONFIG_DIR} symlink."

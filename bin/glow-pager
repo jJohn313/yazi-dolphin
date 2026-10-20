@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Smart Glow runner that falls back gracefully if less is not installed
+if command -v less >/dev/null 2>&1; then
+    exec glow -p "$@"
+elif command -v more >/dev/null 2>&1; then
+    export PAGER=more
+    exec glow -p "$@"
+else
+    exec glow "$@"
+fi

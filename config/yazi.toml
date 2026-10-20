@@ -12,7 +12,7 @@ edit = [
     { run = 'nano %s', desc = "Edit with nano", block = true },
 ]
 glow = [
-    { run = 'glow -p %s || true', desc = "Render Markdown (glow)", block = true },
+    { run = 'glow-pager %s', desc = "Render Markdown (glow)", block = true },
 ]
 bat = [
     { run = 'bat --paging=always %s', desc = "View formatted text (bat)", block = true },
