@@ -19,6 +19,10 @@ require("fg"):setup {
 require("smart-enter"):setup {
 	open_multi = true,
 }
+require("easyjump"):setup {
+	icon_fg = "#94e2d5",
+	first_key_fg = "#fab387",
+}
 
 -- Disk free space indicator in status bar
 local disk_free = ""
@@ -48,11 +52,12 @@ end, 1500, Status.RIGHT)
 -- Quick keybind cheatsheet in header
 Header:children_add(function()
 	return ui.Line({
+		ui.Span("[i]"):fg("#94e2d5"):bold(), ui.Span("Hint  "),
+		ui.Span("[^L]"):fg("#89dceb"):bold(), ui.Span("Path  "),
 		ui.Span("[o]"):fg("#89b4fa"):bold(), ui.Span("Open  "),
 		ui.Span("[/]"):fg("#a6e3a1"):bold(), ui.Span("Filter  "),
 		ui.Span("[fg]"):fg("#f9e2af"):bold(), ui.Span("Search  "),
 		ui.Span("[,]"):fg("#cba6f7"):bold(), ui.Span("Sort  "),
-		ui.Span("[y]"):fg("#fab387"):bold(), ui.Span("Copy  "),
 		ui.Span("[F1]"):fg("#f38ba8"):bold(), ui.Span("Help"),
 	})
 end, 100, Header.RIGHT)

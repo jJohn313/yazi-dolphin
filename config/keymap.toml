@@ -1,6 +1,9 @@
 [mgr]
 prepend_keymap = [
     # Custom File Openers & Navigation
+    { on = "<C-l>", run = "cd --interactive", desc = "Go to path (location bar like Dolphin)" },
+    { on = "i", run = "plugin easyjump", desc = "Jump to file with hint (Qutebrowser-style)" },
+    { on = "I", run = [ "plugin easyjump", "plugin smart-enter" ], desc = "Jump and open file with hint" },
     { on = "l", run = "plugin smart-enter", desc = "Enter directory or open file" },
     { on = "z", run = "plugin zoxide", desc = "Jump to directory via zoxide" },
     { on = "Z", run = "plugin zoxide --args='--interactive'", desc = "Jump to directory via zoxide (fzf)" },

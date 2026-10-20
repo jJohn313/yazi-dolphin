@@ -34,6 +34,9 @@ Designed for modern Wayland environments (Hyprland, Sway, GNOME), this suite del
 ### Essential Operations
 | Key | Action | Description |
 | :--- | :--- | :--- |
+| **`i`** | **Qutebrowser Hint Jump** | Spawns visual letter badges on every file; press the letter to jump to it instantly. |
+| **`I`** | **Hint Jump & Open** | Spawns visual hints, jumps to target file, and immediately opens/enters it. |
+| **`<C-l>`** | **Location / Path Bar** | Opens Dolphin-style address prompt at the bottom (`cd: `) with Tab-completion to paste paths. |
 | **`o`** | **Open With...** | Context-aware action menu tailored to the current file type. |
 | **`l`** | **Smart Enter** | Enters directory or triggers smart file opener. |
 | **`h`** | **Parent Dir** | Navigates up to parent directory. |
