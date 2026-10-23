@@ -34,8 +34,8 @@ extract_to_subfolder = [
 extract_here = [
     { run = 'ouch d -y --here %s', desc = "Extract here (current directory)" },
 ]
-extract_to_custom = [
-    { run = 'DEST=$(kdialog --getexistingdirectory "$PWD" 2>/dev/null || zenity --file-selection --directory 2>/dev/null); [ -n "$DEST" ] && ouch d -y -d "$DEST" %s', desc = "Extract to chosen folder (dialog)...", orphan = true },
+extract_to_fzf = [
+    { run = '''DEST=$( (zoxide query -l 2>/dev/null; fd -t d -d 3 . "$HOME" 2>/dev/null) | awk '!seen[$0]++' | fzf --prompt="Extract to ❯ " --height=80% --layout=reverse --border ); [ -n "$DEST" ] && ouch d -y -d "$DEST" %s''', desc = "Extract to chosen folder (fzf)...", block = true },
 ]
 extract_and_remove = [
     { run = 'ouch d -y -r %s', desc = "Extract to subfolder and remove archive" },
@@ -60,7 +60,7 @@ image = [
 [open]
 rules = [
     # Archives: smart extract options
-    { mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}", use = ["extract_to_subfolder", "extract_here", "extract_to_custom", "extract_and_remove", "reveal"] },
+    { mime = "application/{*zip,tar,bzip2,7z*,rar,xz,zstd,java-archive}", use = ["extract_to_subfolder", "extract_here", "extract_to_fzf", "extract_and_remove", "reveal"] },
     
     # Documents & Media: sensible defaults
     { url = "*.md", use = ["glow", "bat", "edit", "kate", "open", "reveal"] },

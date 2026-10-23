@@ -12,11 +12,14 @@ Designed for modern Wayland environments (Hyprland, Sway, GNOME), this suite del
 
 | GUI Desktop Feature (Dolphin) | Yazi Dolphin Drop-in Solution | Keybinding / Mechanism |
 | :--- | :--- | :--- |
+| **Cross-Instance Yank & Move (DDS)** | Real-time copy/cut/paste across multiple terminal windows | `y` (copy) / `x` (cut) in Win 1 ➔ `p` in Win 2 via native DDS |
+| **Reactive Context Island** | Real-time action suggestions badge matching hovered MIME | Dynamic Header Island (`[l] Play`, `[o] Unpack`, `[^d] Drag`) |
+| **Instant "Send To" Movement** | Move or copy files to any zoxide folder without navigating | `m v` (Move To) / `c p` (Copy To) via `zoxide` + `fzf` |
+| **Terminal-Native Archive Extraction** | Fast fuzzy directory picker for archive decompression | `o` ➔ `Extract to chosen folder (fzf)...` |
 | **In-Archive Folder Browsing** | Seamless virtual inspection without extracting | `l` / `<Enter>` via `smart-enter.yazi` & `ouch` |
 | **Contextual "Actions / Open With"** | Filtered interactive action prompt matching file MIME | `o` (`open --interactive`) |
-| **Archive Unpacking Options** | Subfolder, current directory, or GUI folder picker dialog | `o` on `.zip`, `.tar.*`, `.7z`, `.rar` |
 | **Per-Folder Sorting Rules** | Downloads by newest date; Home & projects alphabetical | Automated DDS `cd` listener in `init.lua` |
-| **Live Free Disk Space Gauge** | Real-time filesystem capacity meter | Status bar: `󰋊 XXG free` (cached, 0ms lag) |
+| **Live Free Disk Space Gauge** | Non-blocking real-time filesystem capacity meter | `ya.async` `Command("df")` in status bar |
 | **Breadcrumb / Smart Jumping** | Deep path jumping and interactive fuzzy directory picker | `z <query>` (direct) / `Z` (fzf) via `zoxide` |
 | **System-Wide Clipboard Sync** | Bidirectional copy/cut/paste with Wayland clipboard | `y` (yank), `x` (cut), `<C-p>` (paste) via `wl-copy` |
 | **Drag & Drop to GUI Windows** | Floating drag source for browsers, Discord, GIMP | `<C-d>` via `ripdrag` |
@@ -24,7 +27,6 @@ Designed for modern Wayland environments (Hyprland, Sway, GNOME), this suite del
 | **Modern Text Editing** | Full mouse support, standard shortcuts (`Ctrl+S`, `Ctrl+C`) | `micro` (intuitive modern nano replacement) |
 | **Default Image Viewer** | Fast, hardware-accelerated Wayland viewer | `imv` (replaces video editors as default image app) |
 | **Universal File Search** | Fuzzy search by name or recursive ripgrep file content | `fg` (content search), `ff` (filename search) |
-| **Built-in Keyboard Cheatsheet** | Persistent top-bar hints + full searchable hotkey manual | Header cheat-line + `<F1>` / `~` (`help`) |
 | **Desktop "Show in Folder"** | GUI apps (Zen, Firefox, Discord) open Yazi in terminal | `yazi.desktop` registered for `inode/directory` |
 
 ---
@@ -56,16 +58,19 @@ Designed for modern Wayland environments (Hyprland, Sway, GNOME), this suite del
 | :--- | :--- | :--- |
 | **`z <dir>`** | **Zoxide Jump** | Instant jump to any frequently visited folder. |
 | **`Z`** | **Fuzzy Jump** | Open interactive `fzf` picker of all tracked directories. |
-| **`m`** | **Bookmark** | Bookmark the current directory (Yamb). |
+| **`m` `v`** | **Move To (SendTo)** | Throw selected/hovered files into any zoxide directory via `fzf`. |
+| **`c` `p`** | **Copy To (SendTo)** | Copy selected/hovered files into any zoxide directory via `fzf`. |
+| **`b` `m`** or **`b` `s`** | **Bookmark** | Bookmark the current directory (Yamb). |
 | **`'`** | **Jump Bookmark** | Jump to saved bookmark by assigned key. |
 | **`"`** | **FZF Bookmarks** | Fuzzy search all saved bookmarks. |
 
 ### File Actions & Clipboard
 | Key | Action | Description |
 | :--- | :--- | :--- |
-| **`y`** | **Yank & Copy** | Copies file in Yazi and syncs URI to Wayland clipboard. |
-| **`x`** | **Cut & Copy** | Cuts file in Yazi and syncs URI to Wayland clipboard. |
-| **`<C-p>`** | **Paste** | Pastes files copied from Yazi or external GUI file managers. |
+| **`y`** | **Yank (Copy)** | Yanks file; automatically syncs across Yazi instances (DDS) & Wayland clipboard. |
+| **`x`** | **Cut (Move)** | Cuts file; automatically syncs across Yazi instances (DDS) & Wayland clipboard. |
+| **`p`** | **Paste (DDS)** | Natively pastes yanked/cut files across any running Yazi terminal instance. |
+| **`<C-p>`** | **Paste (GUI)** | Pastes files copied from external GUI file managers (Dolphin, Zen, Firefox). |
 | **`<C-d>`** | **Ripdrag** | Spawns a drag-and-drop window to drag files into GUI apps. |
 | **`C`** | **Compress** | Multi-file compression dialog using `ouch`. |
 | **`c` `m`** | **Chmod** | Interactive file permissions editor. |
@@ -83,7 +88,7 @@ Pressing **`o`** on any file displays actions strictly relevant to its MIME type
 ── Archives (.zip, .tar.gz, .7z, .rar) ─────────────────────────────────────────
 1. Extract to subfolder              (ouch d -y %s)
 2. Extract here (current directory)  (ouch d -y --here %s)
-3. Extract to chosen folder...       (opens GUI directory picker via kdialog/zenity)
+3. Extract to chosen folder (fzf)... (fuzzy folder picker via zoxide + fd + fzf)
 4. Extract and remove archive        (ouch d -y -r %s)
 5. Reveal in file manager
 
